@@ -65,18 +65,26 @@ let model = readerExample.apply(environment: test)
 let futureExample: Future<UserWithAvatar, DownloadError> = Helpers.requestUserInfo(userId: "swift")
 
 futureExample.start() { result in
-    print(result)
+    switch result {
+        case .success(let image):
+            image.value
+        case .error(let error):
+            error
+        }
+    print(result.debugDescription)
 }
 
 let avatarFuture = Helpers.loadAvatar(userId: "swift")
 
 avatarFuture.start() { result in
     switch result {
-    case .success(let image):
-        image.value
-    case .error(let error):
-        error
-    }
+        case .success(let image):
+            image.value
+        case .error(let error):
+            error
+        }
+    
+    print(result.debugDescription)
 }
 
 let avatarError = Helpers.loadAvatar(userId: "invalid").mapError { _ in
@@ -84,6 +92,13 @@ let avatarError = Helpers.loadAvatar(userId: "invalid").mapError { _ in
 }
 
 avatarError.start() { result in
-    print(result)
+    switch result {
+    case .success(let image):
+            image.value
+        case .error(let error):
+            error
+    }
+    
+    print(result.debugDescription)
 }
 

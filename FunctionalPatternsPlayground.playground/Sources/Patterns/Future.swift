@@ -5,6 +5,17 @@ public enum Result <Value, ErrorElement: Error> {
     case error(ErrorElement)
 }
 
+extension Result: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        switch self {
+        case .success(let info):
+            return "Success: \(info.value)"
+        case .error(let error):
+            return "Error: \(error)"
+        }
+    }
+}
+
 public struct Future<Value, ErrorElement: Error> {
     
     //MARK: Types
