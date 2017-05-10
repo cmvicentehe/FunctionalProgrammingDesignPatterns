@@ -47,7 +47,7 @@ let optionalIntWithValue: Optional<Int> = .some(3)
 let optionalApplicativeResult:Optional<Int> = optionalIntWithValue.apply(function: nil)
 
 // Applicative with function not nil
-let otherOptionalIntWithValue: Optional<Int> = .some(8)
+let otherOptionalIntWithValue: Optional<Int> = .none
 let optionalApplicativeResultWithValue: Optional<Int> = otherOptionalIntWithValue.apply(function: Helpers.functionToTestApplicative)
 
 // READER
@@ -62,7 +62,7 @@ let readerExample = Reader<Environment, Car>(transform: Helpers.carTransform).ma
 let model = readerExample.apply(environment: test)
 
 // FUTURE
-let futureExample: Future<UserWithAvatar, DownloadError> = Helpers.requestUserInfo(userId: "swift")
+let futureExample: Future<UserWithAvatar, DownloadError> = Helpers.requestUserInfo(userId: "notExistent")
 
 futureExample.start() { result in
     switch result {
