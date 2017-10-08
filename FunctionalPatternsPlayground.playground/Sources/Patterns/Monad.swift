@@ -1,8 +1,7 @@
 import Foundation
 
-public protocol Monad: Functor {
-    //MARK: Types
-    associatedtype MonadType
-    
-    func flatmap(function: ((MonadType) -> MonadType)) -> MonadType
+public class Monad<MonadType>: Functor<MonadType, MonadType> {
+    public func flatmap(function: ((MonadType) -> MonadType)) -> MonadType {
+        return function(self.value)
+    }
 }

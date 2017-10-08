@@ -1,10 +1,14 @@
 import Foundation
 
-public protocol Functor {
-    //MARK: Types
-    associatedtype TypeParameter // it could be a function
-    associatedtype TypeResult // it could be a function
-    typealias Function = (TypeParameter) -> TypeResult
+public class Functor<Entry, Result> {
+     //MARK: - Attributes
+    public let value: Entry
     
-    func map(function: (Function)) -> TypeResult
+    public init(value: Entry) {
+        self.value = value
+    }
+    
+    public func map(function: ((Entry) -> Result)) -> Result {
+        return function(self.value)
+    }
 }

@@ -8,8 +8,8 @@ public enum DownloadError: Error {
 public struct Helpers {
     
     // MARK - MONADs AND FUNCTOR
-    public static func usersTransformation(user: User) -> String {
-        return user.map (function: Helpers.transformation)
+    public static func usersTransformation(functor: Functor<User, String>) -> String {
+        return functor.map(function: Helpers.transformation)
     }
     
     public static func transformation(user: User) -> String {
