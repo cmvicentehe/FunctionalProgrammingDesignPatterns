@@ -10,33 +10,40 @@ let user2 = User(name: "User 2", lastName: "LastName 2")
 let user3 = User(name: "User 3", lastName: "LastName 3")
 let user4 = User(name: "User 4", lastName: "LastName 4")
 
-let users: [User] = [user1, user2, user3, user4]
-let usersTransformed = users.map(Helpers.usersTransformation)
+let functor1: Functor<User, String> = Functor(value: user1)
+let functor2: Functor<User, String> = Functor(value: user2)
+let functor3: Functor<User, String> = Functor(value: user3)
+let functor4: Functor<User, String> = Functor(value: user4)
 
-// MAYBE with value
+let functorUsers: [Functor<User, String>] = [functor1, functor2, functor3, functor4]
+let usersTransformed = functorUsers.map(Helpers.usersTransformation)
 
-let maybeExampleValue: MaybeInteger = MaybeInteger(value: .just(3))
-let resultValue: Int? = maybeExampleValue.map(function: Helpers.checkNilInteger)
+print("users transformed: \(usersTransformed)")
 
-// MAYBE nil
+//// MAYBE with value
+let maybeThree = Maybe.just(3)
+let maybeAsAFunctor: Functor<Maybe<Int>, Maybe<Int>> = Functor(value: maybeThree)
+let maybeThreeResult = maybeAsAFunctor.map(function: Helpers.checkMaybeInteger)
+print("Maybe result = \(maybeThreeResult)")
 
-let maybeExampleNil: MaybeInteger = MaybeInteger(value: .nothing)
-let resultValueNil: Int? = maybeExampleNil.map(function: Helpers.checkNilInteger)
-
+//// MAYBE nil
+let maybeNothing: Maybe<Int> = Maybe.nothing
+let maybeNothingAsAFunctor: Functor<Maybe<Int>, Int?> = Functor(value: maybeNothing)
+let maybeNothingResult = maybeNothingAsAFunctor.map(function: Helpers.checkNilInteger)
+print("Maybe result = \(String(describing: maybeNothingResult))")
 
 // MAYBE As a Monad with value
 
-let maybeMonadExampleValue: MaybeInteger = MaybeInteger(value: .just(3))
-let monadResultValue: Maybe<Int> = maybeExampleValue.flatmap(function: Helpers.checkMaybeInteger)
-
-print(monadResultValue)
+let maybeMonadExampleThree: Monad<Maybe<Int>> = Monad(value: maybeThree)
+let monadThreeResultValue: Maybe<Int> = maybeMonadExampleThree.flatmap(function: Helpers.checkMaybeInteger)
+print("Monad maybe result = \(monadThreeResultValue)")
 
 // MAYBE As a Monad without value
 
-let maybeMonadExampleWithoutValue: MaybeInteger = MaybeInteger(value: .nothing)
-let monadResultWithoutValue: Maybe<Int> = maybeMonadExampleWithoutValue.flatmap(function: Helpers.checkMaybeInteger)
+let maybeMonadExampleNothing: Monad<Maybe<Int>> = Monad(value: maybeNothing)
+let monadNothingResultValue: Maybe<Int> = maybeMonadExampleNothing.flatmap(function: Helpers.checkMaybeInteger)
+print("Monad maybe result = \(monadNothingResultValue)")
 
-print(monadResultWithoutValue)
 
 // Typeclass
 let resultByFive = Helpers.timesByFour(addable: 5)
